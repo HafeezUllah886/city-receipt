@@ -1,2 +1,82 @@
 <?php
- use App\Models\material_stock; use App\Models\receipt; use App\Models\stock; use Carbon\Carbon; goto uqvGI; qAAHy: function projectNameHeader() { return "\104\122\x20\101\102\104\125\114\40\102\101\x52\x49\40\x4b\x41\113\101\122"; } goto Fpagi; RZMes: function token_number($id) { $currentReceipt = receipt::findOrFail($id); $entries = receipt::whereDate("\x63\x72\x65\x61\x74\x65\144\x5f\141\x74", $currentReceipt->created_at)->orderBy("\x63\162\145\x61\164\145\144\x5f\x61\164", "\x61\163\143")->get(); $token = $entries->search(function ($entry) use($id) { return $entry->id === $id; }); return $token !== false ? $token + 1 : null; } goto zVbLk; Fpagi: function projectNameShort() { return "\101\102\113"; } goto RZMes; cjN9w: function projectNameAuth() { return "\104\122\40\x41\102\x44\125\x4c\40\x42\x41\x52\111\x20\x4b\101\x4b\101\x52"; } goto qAAHy; Vff2t: function lastDayOfMonth() { $endOfMonth = Carbon::now()->endOfMonth(); return $endOfMonth->format("\x59\x2d\x6d\x2d\144"); } goto cjN9w; uqvGI: function firstDayOfMonth() { $startOfMonth = Carbon::now()->startOfMonth(); return $startOfMonth->format("\131\x2d\x6d\55\x64"); } goto Vff2t; zVbLk: function receipt() { $receipt = receipt::count(); if ($receipt > 50) { return 0; } return 1; }
+
+use App\Models\material_stock;
+use App\Models\receipt;
+use App\Models\stock;
+use Carbon\Carbon;
+
+function firstDayOfMonth()
+{
+    $startOfMonth = Carbon::now()->startOfMonth();
+
+    return $startOfMonth->format('Y-m-d');
+}
+function lastDayOfMonth()
+{
+
+    $endOfMonth = Carbon::now()->endOfMonth();
+
+    return $endOfMonth->format('Y-m-d');
+}
+
+function projectNameAuth()
+{
+    return "DR ABDUL BARI KAKAR";
+}
+
+function projectNameHeader()
+{
+    return "DR ABDUL BARI KAKAR";
+}
+function projectNameShort()
+{
+    return "ABK";
+}
+
+function token_number($id)
+{
+    // Find the current receipt
+    $currentReceipt = receipt::findOrFail($id);
+    
+    // Get the entries for the specific date of this receipt, ordered by created_at
+    $entries = receipt::whereDate('created_at', $currentReceipt->created_at)
+        ->orderBy('created_at', 'asc')
+        ->get();
+    
+    // Find the sequential number of the current entry
+    $token = $entries->search(function ($entry) use ($id) {
+        return $entry->id === $id;
+    });
+    
+    // Add 1 to convert from 0-indexed to 1-indexed
+    return $token !== false ? $token + 1 : null;
+}
+
+function token_date($date)
+{
+
+    // Get the entries for the specific date of this receipt, ordered by created_at
+    $entries = receipt::whereDate('date', $date)
+        ->orderBy('created_at', 'desc')
+        ->get();
+    
+    // Find the sequential number of the current entry
+    $token = $entries->search(function ($entry) use ($date) {
+        return $entry->date === $date;
+    });
+    
+    // Add 1 to convert from 0-indexed to 1-indexed
+    return $token !== false ? $token + 1 : null;
+}
+
+function receipt() {
+
+    $receipt = receipt::count();
+
+    if($receipt > 50)
+    {
+        return 0;
+    }
+    return 1;
+
+}

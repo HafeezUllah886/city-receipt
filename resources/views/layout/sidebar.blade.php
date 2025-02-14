@@ -84,6 +84,9 @@
                             <li class="nav-item">
                                 <a href="{{route('charges.index')}}" class="nav-link" data-key="t-chat"> Charges </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="{{route('opdtime.index')}}" class="nav-link" data-key="t-chat"> OPD Time </a>
+                            </li>
                         </ul>
                     </div>
                 </li>

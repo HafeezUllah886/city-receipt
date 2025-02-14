@@ -10,6 +10,10 @@ class receipt extends Model
     use HasFactory;
 
     protected $guarded = [];
+    protected $casts = [
+        'time' => 'datetime',
+        
+    ];
 
     public function details()
     {
@@ -19,6 +23,11 @@ class receipt extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'userID');
+    }
+
+    public function getEventTimeAttribute()
+    {
+        return $this->time->format('g:i A');
     }
     
 

@@ -15,6 +15,8 @@
                             <th>Date</th>
                             <th>Type</th>
                             <th>Patient</th>
+                            <th>Token</th>
+                            <th>Time</th>
                             <th>Consultant</th>
                             <th>Amount</th>
                             <th></th>
@@ -27,6 +29,8 @@
                                     <td>{{ date("d M Y", strtotime($receipt->date)) }}</td>
                                     <td>{{ $receipt->type }}</td>
                                     <td>{{ $receipt->pName}}</td>
+                                    <td>{{ $receipt->token_number}}</td>
+                                    <td>{{ $receipt->event_time}}</td>
                                     <td>{{ $receipt->consultant}}</td>
                                     <td>{{ $receipt->details->sum('fee')}}</td>
                                     <td>

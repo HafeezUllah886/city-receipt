@@ -9,8 +9,8 @@
                                 <a href="javascript:window.print()" class="btn btn-success ml-4"><i class="ri-printer-line mr-4"></i> Print</a>
                             </div>
                             <div class="card-header border-bottom-dashed p-4">
-                                <h4 class="text-center fw-bold">FC HOSPITAL QUETTA</h4>
-                                <p class="text-center fw-bold">CR DAILY COLLECTION REPORT</p>
+                                <h4 class="text-center fw-bold">DR ABDUL BARI KAKAR</h4>
+                                <p class="text-center fw-bold">DAILY COLLECTION REPORT</p>
                             </div>
                             <!--end card-header-->
                         </div><!--end col-->
@@ -85,7 +85,7 @@
                                             <tr class="table" style="border-top: 1px solid black !important; border-bottom: 1px solid black !important;">
                                                 <th scope="col" class="text-start fw-bold">Ser</th>
                                                 <th scope="col" class="text-start fw-bold">Receipt #</th>
-                                                <th scope="col" class="text-start fw-bold ">Patient Name</th>
+                                                <th scope="col" class="text-start fw-bold">Patient Name</th>
                                                 <th scope="col" class="text-start fw-bold">Patient CNIC</th>
                                                 <th scope="col" class="text-start fw-bold">Patient Contact</th>
                                                 <th scope="col" class="text-start fw-bold">Cosultant Name</th>
@@ -149,7 +149,7 @@
                                             <th class="fw-bold">
                                                 Received By<br><br>
                                                 ____________________<br>
-                                                CNE OFFICE
+                                                
                                             </th>
                                         </tr>
                                     </tbody>

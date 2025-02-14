@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\receipt;
 use App\Http\Controllers\Controller;
 use App\Models\charges;
+use App\Models\opd_time;
 use App\Models\receipt_details;
 use App\Models\receipt_type;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -33,7 +35,18 @@ class ReceiptController extends Controller
         $types = receipt_type::all();
         $charges = charges::where('typeID', $id)->get();
 
-        return view('receipt.create', compact('types','charges', 'id'));
+        $date = date('Y-m-d'); // Replace with the desired date
+
+        $missingNumbers = receipt::whereDate('date', $date)
+            ->pluck('token_number')
+            ->toArray();
+
+            $numbers = range(1, 150);
+            $missing = array_diff($numbers, $missingNumbers);
+
+            $firstMissing = reset($missing);
+
+        return view('receipt.create', compact('types','charges', 'id', 'firstMissing'));
     }
 
     /**
@@ -49,6 +62,10 @@ class ReceiptController extends Controller
             }
             DB::beginTransaction();
             $type = receipt_type::find($request->type);
+
+            $opdtime = opd_time::first();
+            $gap = $opdtime->gap * $request->token;
+            $newTime = Carbon::parse($opdtime->time)->addMinutes($gap);
             $receipt = receipt::create(
                 [
                     'type' => $type->type,
@@ -59,6 +76,8 @@ class ReceiptController extends Controller
                     'desc' => $request->notes,
                     'cnic' => $request->cnic,
                     'gender' => $request->gender,
+                    'token_number' => $request->token,
+                    'time' => $newTime,
                     'userID' => auth()->user()->id,
                 ]
             );
@@ -148,5 +167,16 @@ class ReceiptController extends Controller
 
         session()->forget('confirmed_password');
         return to_route('receipt.index')->with('error', "Receipt Refunded");
+    }
+
+    public function checktoken($token, $date)
+    {
+        $receipt = receipt::where('token_number', $token)
+            ->whereDate('date', $date)
+            ->first();
+        if ($receipt)
+            return 1;
+        else
+            return 0;
     }
 }

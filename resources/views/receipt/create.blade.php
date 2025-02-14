@@ -19,7 +19,7 @@
                     <form action="{{route('receipt.store')}}" method="post">
                         @csrf
                         <div class="row">
-                            <div class="col-4">
+                            <div class="col-3">
                                 <div class="form-group">
                                     <label for="type">Receipt Type</label>
                                     <select name="type" id="type" onchange="typeChanged()" class="form-control">
@@ -29,16 +29,22 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-3">
                                 <div class="form-group">
                                     <label for="consultant">Consultant</label>
                                     <input type="text" name="consultant" id="consultant" value="{{old('consultant')}}"  required class="form-control">
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <label for="token">Token#</label>
+                                    <input type="number" name="token" id="token" oninput="checkToken()" value="{{$firstMissing}}"  required class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-3">
                                 <div class="form-group">
                                     <label for="date">Date</label>
-                                    <input type="date" name="date" id="date" value="{{date('Y-m-d')}}"  required class="form-control">
+                                    <input type="date" name="date" id="date" value="{{date('Y-m-d')}}" onchange="checkToken()"  required class="form-control">
                                 </div>
                             </div>
                         </div>
@@ -104,7 +110,7 @@
                                     <textarea name="notes" id="notes" class="form-control" cols="30" rows="5"></textarea>
                                 </div>
                                
-                                <button type="submit" class="btn btn-success btn-lg w-100 mt-2">Print</button>
+                                <button type="submit" class="btn btn-success btn-lg w-100 mt-2" id="print">Print</button>
                             </div>
                         </div>
                     </form>
@@ -187,6 +193,29 @@ $(".selectize").selectize({
             });
             $('#row_'+id).remove();
             updateTotal();
+        }
+
+        function checkToken() {
+            var token = $("#token").val();
+            var date = $("#date").val();
+            $.ajax({
+                url: "{{ url('/checktoken/') }}/" + token + "/" + date,
+                method: "GET",
+                success: function(response) {
+                    if (response == 1) {
+                        $("#print").prop("disabled", true);
+                        $("#print").addClass("btn-danger");
+                        $("#print").removeClass("btn-success");
+                        $("#print").text("Token Already Issued");
+                    }
+                    else {
+                        $("#print").prop("disabled", false);
+                        $("#print").removeClass("btn-danger");
+                        $("#print").addClass("btn-success");
+                        $("#print").text("Print");
+                    }
+                }
+            });
         }
  
 

@@ -89,7 +89,8 @@
         </div>
         <div class="header">
             
-            <p class="text-center" style="font-size: 40px;"><strong>Token # {{token_number($receipt->id)}}</strong></p>
+            <p class="text-center" style="font-size: 40px;"><strong>Token # {{$receipt->token_number}}</strong></p>
+            <p class="text-center" style="font-size: 20px;"><strong>Time - {{$receipt->event_time}}</strong></p>
             <div class="area-title">
                 <p class="text-center bg-dark uppercase">{{$receipt->type}}</p>
             </div>
